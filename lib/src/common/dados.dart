@@ -1,4 +1,5 @@
 class DadosGlobais {
-  static const String baseUrl = 'http://localhost:5000';
-  String token = '';
+  static const String baseUrl = 'http://repvixbackend.inforvix.net.br:50001';
+  static String token = '';
+  static bool marcacaoRegistrada = false;
 }

@@ -1,5 +1,4 @@
-
-import 'package:rep_p_mobile/src/service/funcionarios_api%20copy.dart';
+import 'package:rep_p_mobile/src/service/registrar_marcacao.dart';
 
 class MarcacaoRepository {
   Future<void> registrarMarcacao() async {

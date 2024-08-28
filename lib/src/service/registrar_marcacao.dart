@@ -6,21 +6,20 @@ class MarcacaoApi {
     final url = Uri.parse('${DadosGlobais.baseUrl}/marcacao/registraToken');
     final headers = {
       'Content-Type': 'application/json',
-      'Authorization': 'Bearer ${DadosGlobais().token}'
+      'Authorization': 'Bearer ${DadosGlobais.token}'
     };
 
     final response = await http.post(url, headers: headers);
 
-    if(response.statusCode >= 200 && response.statusCode <= 299) {
+    if (response.statusCode >= 200 && response.statusCode <= 299) {
       print('Registror Marcacao');
       print(response.toString() + 'Resgistrada ');
+      DadosGlobais.marcacaoRegistrada = true;
       return response;
     } else {
+      print(response.body);
+      DadosGlobais.marcacaoRegistrada = false;
       throw Exception('Falha ao fazer login: ${response.statusCode}');
     }
   }
 }
-
-
-
-
