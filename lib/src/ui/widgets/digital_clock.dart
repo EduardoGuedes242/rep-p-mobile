@@ -3,8 +3,6 @@ import 'dart:async';
 import 'package:flutter/material.dart';
 import 'package:intl/intl.dart';
 import 'dart:math';
-
-import 'package:one_clock/one_clock.dart';
 import 'package:rep_p_mobile/src/ui/fonts.dart';
 
 class AnalogClockInforvix extends StatefulWidget {

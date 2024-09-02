@@ -2,7 +2,6 @@
 import 'dart:math';
 
 import 'package:flutter/material.dart';
-import 'package:one_clock/one_clock.dart';
 import 'package:rep_p_mobile/src/common/dados.dart';
 import 'package:rep_p_mobile/src/repositories/marcacao.dart';
 import 'package:rep_p_mobile/src/ui/cores.dart';
