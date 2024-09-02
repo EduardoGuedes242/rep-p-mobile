@@ -1,14 +1,15 @@
 import 'package:flutter/material.dart';
 import 'package:rep_p_mobile/src/pages/login_page.dart';
+import 'package:intl/date_symbol_data_local.dart';
 
 void main() {
-  runApp(const MyApp());
+  initializeDateFormatting('pt_BR', null).then((_) {
+    runApp(MyApp());
+  });
 }
-
 class MyApp extends StatelessWidget {
   const MyApp({super.key});
 
-  // This widget is the root of your application.
   @override
   Widget build(BuildContext context) {
     return MaterialApp(
@@ -17,7 +18,7 @@ class MyApp extends StatelessWidget {
         colorScheme: ColorScheme.fromSeed(seedColor: Colors.deepPurple),
         useMaterial3: true,
       ),
-      home: const LoginPage(),
+     home: const LoginPage(),
     );
   }
 }

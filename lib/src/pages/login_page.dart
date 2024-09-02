@@ -75,6 +75,7 @@ class _LoginPageState extends State<LoginPage> {
                         );
 
                         if (DadosGlobais.token != '') {
+                          
                           Navigator.of(context).push(
                             MaterialPageRoute(
                               builder: (context) {

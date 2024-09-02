@@ -97,7 +97,7 @@ class ClockPainter extends CustomPainter {
       ..strokeWidth = 2
       ..strokeCap = StrokeCap.round;
 
-    double outerRadius = radius;
+   
     double outerRadiusDash = radius - 15;
     double innerRadiusDash = radius - 36;
     double outerRadiusSec = radius - 20;
@@ -119,41 +119,9 @@ class ClockPainter extends CustomPainter {
       }
     }
 
-    DateTime dateTime = DateTime.now();
+   
 
-    Offset secondStartOffset = Offset(
-        centerX - outerRadius * .6 * cos(dateTime.second * 6 * pi / 180),
-        centerX - outerRadius * .6 * sin(dateTime.second * 6 * pi / 180));
-    Offset secondEndOffset = Offset(
-        centerX + cos(dateTime.second * 6 * pi / 180),
-        centerX + sin(dateTime.second * 6 * pi / 180));
-
-    Offset minStartOffset = Offset(
-        centerX - outerRadius * .6 * cos(dateTime.minute * 6 * pi / 180),
-        centerX - outerRadius * .6 * sin(dateTime.minute * 6 * pi / 180));
-    Offset minEndOffset = Offset(
-        centerX + 15 * cos(dateTime.minute * 6 * pi / 180),
-        centerX + 15 * sin(dateTime.minute * 6 * pi / 180));
-
-    Offset hourStartOffset = Offset(
-        centerX -
-            outerRadius *
-                .4 *
-                cos((dateTime.hour % 12 + dateTime.minute / 60) *
-                    5 *
-                    6 *
-                    pi /
-                    180),
-        centerX -
-            outerRadius *
-                .4 *
-                sin((dateTime.hour % 12 + dateTime.minute / 60) *
-                    5 *
-                    6 *
-                    pi /
-                    180));
-    Offset hourEndOffset = Offset(centerX + cos(dateTime.hour * 6 * pi / 180),
-        centerX + sin(dateTime.hour * 6 * pi / 180));
+   
 
     //canvas.drawLine(secondStartOffset, secondEndOffset, secondPaint);
     //canvas.drawLine(minStartOffset, minEndOffset, minPaint);

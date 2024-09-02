@@ -14,8 +14,9 @@ class FuncionarioApi {
 
     if (response.statusCode >= 200 && response.statusCode <= 299) {
       final responseBody = json.decode(response.body);
-      print(responseBody['token']);
+
       DadosGlobais.token = responseBody['token'];
+      DadosGlobais.cpfLogin = funcionario.cpf!;
       return response;
     } else {
       final responseBody = json.decode(response.body);
