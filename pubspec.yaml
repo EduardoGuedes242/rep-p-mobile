@@ -45,7 +45,6 @@ dependencies:
   top_snackbar_flutter: ^3.1.0
   one_clock: ^2.0.1
   intl: ^0.19.0
-  mask_input_formatter: ^0.0.3
   mask: ^1.0.5
 
 dev_dependencies:

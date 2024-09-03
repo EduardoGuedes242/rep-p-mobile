@@ -1,6 +1,7 @@
 // ignore_for_file: prefer_const_constructors, prefer_const_literals_to_create_immutables
 import 'package:flutter/material.dart';
 import 'package:rep_p_mobile/src/common/dados.dart';
+import 'package:rep_p_mobile/src/common/funcoes_globais.dart';
 import 'package:rep_p_mobile/src/repositories/funcionarios_repository.dart';
 import 'package:rep_p_mobile/src/pages/home/home_page.dart';
 import 'package:rep_p_mobile/src/ui/cores.dart';
@@ -53,13 +54,13 @@ class _LoginPageState extends State<LoginPage> {
                 child: Column(
                   children: [
                     SizedBox(height: 30),
-                    EditInforvix(
+                    EditInforvixCPF(
                       controller: cpfController,
                       titulo: 'Login',
                       hint: 'Informe seu login',
                     ),
                     SizedBox(height: 40),
-                    EditInforvix(
+                    EditInforvixSenha(
                       controller: senhaController,
                       titulo: 'Senha',
                       hint: 'Informe sua senha',
@@ -70,12 +71,12 @@ class _LoginPageState extends State<LoginPage> {
                       titulo: 'Entrar',
                       funcao: () async {
                         await FuncionarioRepository().login(
-                          cpf: cpfController.text,
+                          cpf:
+                              FuncoesGlobais.somenteNumeros(cpfController.text),
                           senha: senhaController.text,
                         );
 
                         if (DadosGlobais.token != '') {
-                          
                           Navigator.of(context).push(
                             MaterialPageRoute(
                               builder: (context) {

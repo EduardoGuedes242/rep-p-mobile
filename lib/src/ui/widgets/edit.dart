@@ -5,8 +5,8 @@ import 'package:mask/mask/mask.dart';
 import 'package:rep_p_mobile/src/ui/cores.dart';
 import 'package:rep_p_mobile/src/ui/fonts.dart';
 
-class EditInforvix extends StatelessWidget {
-  const EditInforvix({
+class EditInforvixSenha extends StatelessWidget {
+  const EditInforvixSenha({
     super.key,
     required this.controller,
     required this.titulo,
@@ -41,14 +41,20 @@ class EditInforvix extends StatelessWidget {
                 color: PaletaCores.cinza,
               ),
             ),
-            child: Padding(
-              padding: const EdgeInsets.only(left: 5),
-              child: TextFormField(
-                controller: controller,
-                decoration: InputDecoration(
-                  border: InputBorder.none,
-                  hintText: hint,
+            child: TextFormField(
+              obscureText: true,
+              controller: controller,
+              decoration: InputDecoration(
+                border: OutlineInputBorder(
+                  borderRadius: BorderRadius.circular(10),
                 ),
+                focusedBorder: OutlineInputBorder(
+                  borderSide: BorderSide(color: PaletaCores.backgroundBlue),
+                  borderRadius: BorderRadius.circular(10),
+                ),
+                hintText: hint,
+                prefixIcon: Icon(Icons.key),
+                suffixIcon: Icon(Icons.remove_red_eye_outlined),
               ),
             ),
           ),
@@ -57,6 +63,65 @@ class EditInforvix extends StatelessWidget {
     );
   }
 }
+
+class EditInforvixCPF extends StatelessWidget {
+  const EditInforvixCPF({
+    super.key,
+    required this.controller,
+    required this.titulo,
+    required this.hint,
+  });
+
+  final TextEditingController controller;
+  final String titulo;
+  final String hint;
+
+  @override
+  Widget build(BuildContext context) {
+    return SizedBox(
+      height: 78,
+      width: MediaQuery.sizeOf(context).width * 0.85,
+      child: Column(
+        crossAxisAlignment: CrossAxisAlignment.start,
+        children: [
+          Text(
+            titulo,
+            style: Fonts.textStyleTituloEdit,
+          ),
+          Spacer(),
+          Container(
+            height: 48,
+            width: double.infinity,
+            decoration: BoxDecoration(
+              borderRadius: BorderRadius.circular(10),
+              color: PaletaCores.backgroundWhiteSolid,
+              border: Border.all(
+                width: 1,
+                color: PaletaCores.cinza,
+              ),
+            ),
+            child: TextFormField(
+              inputFormatters: [Mask.cpf()],
+              controller: controller,
+              decoration: InputDecoration(
+                border: OutlineInputBorder(
+                  borderRadius: BorderRadius.circular(10),
+                ),
+                focusedBorder: OutlineInputBorder(
+                  borderSide: BorderSide(color: PaletaCores.backgroundBlue),
+                  borderRadius: BorderRadius.circular(10),
+                ),
+                hintText: hint,
+                prefixIcon: Icon(Icons.person_2_outlined),
+              ),
+            ),
+          ),
+        ],
+      ),
+    );
+  }
+}
+
 class EditData extends StatelessWidget {
   const EditData({
     super.key,
@@ -90,7 +155,8 @@ class EditData extends StatelessWidget {
                 lastDate: DateTime(2030),
               );
               if (pickedDate != null) {
-                String formattedDate = '${pickedDate.day.toString().padLeft(2, '0')}/${pickedDate.month.toString().padLeft(2, '0')}/${pickedDate.year}';
+                String formattedDate =
+                    '${pickedDate.day.toString().padLeft(2, '0')}/${pickedDate.month.toString().padLeft(2, '0')}/${pickedDate.year}';
                 controller.text = formattedDate;
               }
             },

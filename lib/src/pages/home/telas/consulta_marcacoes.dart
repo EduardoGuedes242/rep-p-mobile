@@ -7,9 +7,10 @@ import 'package:rep_p_mobile/src/repositories/marcacao.dart';
 import 'package:rep_p_mobile/src/ui/cores.dart';
 import 'package:rep_p_mobile/src/ui/fonts.dart';
 import 'package:rep_p_mobile/src/ui/widgets/button.dart';
+import 'package:rep_p_mobile/src/ui/widgets/comprovante.dart';
 import 'package:rep_p_mobile/src/ui/widgets/edit.dart';
-import 'package:rep_p_mobile/src/ui/widgets/titulo_data.dart';
-import 'package:svg_flutter/svg.dart';
+import 'package:top_snackbar_flutter/custom_snack_bar.dart';
+import 'package:top_snackbar_flutter/top_snack_bar.dart';
 
 class ConsultaMarcacoesTelas extends StatefulWidget {
   const ConsultaMarcacoesTelas({
@@ -20,16 +21,17 @@ class ConsultaMarcacoesTelas extends StatefulWidget {
   State<ConsultaMarcacoesTelas> createState() => _ConsultaMarcacoesTelasState();
 }
 
-class _ConsultaMarcacoesTelasState extends State<ConsultaMarcacoesTelas> {
-  TextEditingController dataInicio = TextEditingController();
-  TextEditingController dataFim = TextEditingController();
+List<GetMarcacoesModel> marcacoes = [];
 
-  List<GetMarcacoesModel> marcacoes = [];
+class _ConsultaMarcacoesTelasState extends State<ConsultaMarcacoesTelas> {
+  TextEditingController dataInicioController = TextEditingController();
+  TextEditingController dataFimController = TextEditingController();
 
   Future<void> buscarMarcacoes() async {
     try {
-      List<GetMarcacoesModel> resultado =
-          await MarcacaoRepository().getMarcacoesPeriodo(dataInicio.text, dataFim.text, DadosGlobais.cpfLogin);
+      List<GetMarcacoesModel> resultado = await MarcacaoRepository()
+          .getMarcacoesPeriodo(dataInicioController.text,
+              dataFimController.text, DadosGlobais.cpfLogin);
 
       setState(() {
         marcacoes = resultado;
@@ -39,8 +41,20 @@ class _ConsultaMarcacoesTelasState extends State<ConsultaMarcacoesTelas> {
     }
   }
 
+  //dataInicioController.text =  '${DateTime.now().day - 3}/${DateTime.now().month}/${DateTime.now().year}';
+
   @override
   Widget build(BuildContext context) {
+    DateTime dataAtual = DateTime.now();
+    DateTime dataInicio = dataAtual.subtract(Duration(days: 3));
+
+    String formatarData(DateTime data) {
+      return '${data.day.toString().padLeft(2, '0')}/${data.month.toString().padLeft(2, '0')}/${data.year}';
+    }
+
+    dataInicioController.text = formatarData(dataInicio);
+    dataFimController.text = formatarData(dataAtual);
+
     return Container(
       width: double.infinity,
       height: double.infinity,
@@ -53,18 +67,18 @@ class _ConsultaMarcacoesTelasState extends State<ConsultaMarcacoesTelas> {
             padding: const EdgeInsets.only(left: 20),
             child: Text(
               'Selecione o Periodo',
-              style: Fonts.textStyleTituloHoras,
+              style: Fonts.textStyleTituloEdit,
             ),
           ),
           Row(
             mainAxisAlignment: MainAxisAlignment.center,
             children: [
               EditData(
-                controller: dataInicio,
+                controller: dataInicioController,
                 titulo: 'Data Inicio',
               ),
               EditData(
-                controller: dataFim,
+                controller: dataFimController,
                 titulo: 'Data Fim',
               ),
             ],
@@ -72,54 +86,39 @@ class _ConsultaMarcacoesTelasState extends State<ConsultaMarcacoesTelas> {
           Center(
             child: ButtonPrimaryInforvix(
               titulo: 'Consultar Marcações',
-              funcao: () {
-                buscarMarcacoes();
+              funcao: () async {
+                if (dataInicioController.text != '' &&
+                    dataFimController.text != '') {
+                  await buscarMarcacoes();
+
+                  if (marcacoes.isEmpty) {
+                    showTopSnackBar(
+                      Overlay.of(context),
+                      CustomSnackBar.info(
+                        message: "Não existem marcações no periodo selecionado",
+                      ),
+                    );
+                  }
+                } else {
+                  showTopSnackBar(
+                    Overlay.of(context),
+                    CustomSnackBar.error(
+                      message: "Favor selecionar o periodo",
+                    ),
+                  );
+                }
               },
             ),
           ),
           SizedBox(height: 12),
           Expanded(
             child: ListView.builder(
+              physics: BouncingScrollPhysics(),
               itemCount: marcacoes.length,
               itemBuilder: (context, index) {
-                return Padding(
-                  padding: const EdgeInsets.all(10),
-                  child: Card(
-                    elevation: 10,
-                    child: Container(
-                      height: 90,
-                      decoration: BoxDecoration(
-                        borderRadius: BorderRadius.circular(10),
-                        color: PaletaCores.backgroundWhiteSolid,
-                      ),
-                      child: Row(
-                        children: [
-                          SizedBox(width: 10),
-                          Column(
-                            crossAxisAlignment: CrossAxisAlignment.start,
-                            children: [
-                              SizedBox(height: 12),
-                              Text(
-                                marcacoes[index].hora.toString(),
-                                style: Fonts.textStyleTituloHoras,
-                              ),
-                              SizedBox(height: 3),
-                              BagdeDyaOfWeek(
-                                day: marcacoes[index].data.toString(),
-                              ),
-                            ],
-                          ),
-                          Spacer(),
-                          SvgPicture.asset(
-                            'assets/icons/comprovante.svg',
-                            height: 38,
-                            width: 38,
-                          ),
-                          SizedBox(width: 15),
-                        ],
-                      ),
-                    ),
-                  ),
+                return ComprovanteWidget(
+                  hora: marcacoes[index].hora!,
+                  data: marcacoes[index].data!,
                 );
               },
             ),

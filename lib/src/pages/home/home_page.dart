@@ -2,6 +2,7 @@
 
 import 'package:flutter/material.dart';
 import 'package:rep_p_mobile/src/pages/home/telas/consulta_marcacoes.dart';
+import 'package:rep_p_mobile/src/pages/home/telas/solicitar_marcacao.dart';
 import 'package:rep_p_mobile/src/pages/home/telas/tela_home.dart';
 import 'package:rep_p_mobile/src/ui/cores.dart';
 import 'package:salomon_bottom_bar/salomon_bottom_bar.dart';
@@ -17,6 +18,7 @@ class _HomePageState extends State<HomePage> {
   int _currentIndex = 1;
 
   List telas = [
+    SolicitarInclusaoMarcacao(),
     TelaRegistrarMarcacao(),
     ConsultaMarcacoesTelas(),
   ];
@@ -30,7 +32,12 @@ class _HomePageState extends State<HomePage> {
         onTap: (i) => setState(() => _currentIndex = i),
         items: [
           SalomonBottomBarItem(
-            icon: Icon(Icons.home),
+            icon: Icon(Icons.menu),
+            title: Text("Opções"),
+            selectedColor: PaletaCores.backgroundBlue,
+          ),
+          SalomonBottomBarItem(
+            icon: Icon(Icons.fingerprint),
             title: Text("Principal"),
             selectedColor: PaletaCores.backgroundBlue,
           ),

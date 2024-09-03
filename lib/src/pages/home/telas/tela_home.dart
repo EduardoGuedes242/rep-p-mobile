@@ -1,5 +1,3 @@
-
-
 // ignore_for_file: prefer_const_constructors, prefer_const_literals_to_create_immutables
 import 'dart:math';
 import 'package:flutter/material.dart';
@@ -7,11 +5,9 @@ import 'package:rep_p_mobile/src/common/dados.dart';
 import 'package:rep_p_mobile/src/model/marcacao.dart';
 import 'package:rep_p_mobile/src/repositories/marcacao.dart';
 import 'package:rep_p_mobile/src/ui/cores.dart';
-import 'package:rep_p_mobile/src/ui/fonts.dart';
 import 'package:rep_p_mobile/src/ui/widgets/button.dart';
+import 'package:rep_p_mobile/src/ui/widgets/comprovante.dart';
 import 'package:rep_p_mobile/src/ui/widgets/digital_clock.dart';
-import 'package:rep_p_mobile/src/ui/widgets/titulo_data.dart';
-import 'package:svg_flutter/svg.dart';
 import 'package:top_snackbar_flutter/custom_snack_bar.dart';
 import 'package:top_snackbar_flutter/top_snack_bar.dart';
 
@@ -46,7 +42,7 @@ class _TelaRegistrarMarcacaoState extends State<TelaRegistrarMarcacao> {
   @override
   Widget build(BuildContext context) {
     return Container(
-      color:PaletaCores.backgroundWhite,
+      color: PaletaCores.backgroundWhite,
       child: Column(
         children: [
           ClipPath(
@@ -92,56 +88,14 @@ class _TelaRegistrarMarcacaoState extends State<TelaRegistrarMarcacao> {
               ),
             ),
           ),
-          Container(
-            height: MediaQuery.sizeOf(context).height - 360,
-            width: MediaQuery.sizeOf(context).width * 0.9,
-            decoration: BoxDecoration(
-              color: PaletaCores.backgroundWhite,
-              //color: Colors.red,
-            ),
+          Expanded(
             child: ListView.builder(
+              physics: BouncingScrollPhysics(),
               itemCount: marcacoes.length,
               itemBuilder: (context, index) {
-                return Card(
-                  elevation: 5,
-                  margin: EdgeInsets.all(15),
-                  child: Container(
-                    margin: EdgeInsets.all(0),
-                    height: 78,
-                    decoration: BoxDecoration(
-                      borderRadius: BorderRadius.circular(15),
-                      color: Colors.white,
-                    ),
-                    child: Row(
-                      children: [
-                        SizedBox(width: 10),
-                        Column(
-                          crossAxisAlignment: CrossAxisAlignment.start,
-                          children: [
-                            SizedBox(height: 12),
-                            Text(
-                              marcacoes[index].hora.toString(),
-                              style: Fonts.textStyleTituloHoras,
-                            ),
-                            SizedBox(height: 3),
-                            Row(
-                              children: [
-                                BagdeDyaOfWeek(day: marcacoes[index].data.toString()),
-                                
-                              ],
-                            )
-                          ],
-                        ),
-                        Spacer(),
-                        SvgPicture.asset(
-                          'assets/icons/icon-ok.svg',
-                          height: 38,
-                          width: 38,
-                        ),
-                        SizedBox(width: 10)
-                      ],
-                    ),
-                  ),
+                return ComprovanteWidget(
+                  hora: marcacoes[index].hora!,
+                  data: marcacoes[index].data!,
                 );
               },
             ),
@@ -151,7 +105,6 @@ class _TelaRegistrarMarcacaoState extends State<TelaRegistrarMarcacao> {
     );
   }
 }
-
 
 class OvalBottomBorderClipper2 extends CustomClipper<Path> {
   @override
